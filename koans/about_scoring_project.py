@@ -32,9 +32,48 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+
 def score(dice):
-    # You need to write this method
-    pass
+    def rule_3_and_rest(number, value_of_three_items, value_of_single_item, number_map):
+        result = 0
+        occurrences = number_map[number]
+        if occurrences < 3:
+            result = value_of_single_item * occurrences
+        elif occurrences == 3:
+            result += value_of_three_items
+        else:
+            result += value_of_three_items + (value_of_single_item * (occurrences - 3))
+        return result
+
+    def rule_for_1(number_map):
+        return rule_3_and_rest(1, 1_000, 100, number_map)
+
+    def rule_for_2(number_map):
+        return rule_3_and_rest(2, 200, 0, number_map)
+
+    def rule_for_3(number_map):
+        return rule_3_and_rest(3, 300, 0, number_map)
+
+    def rule_for_4(number_map):
+        return rule_3_and_rest(4, 400, 0, number_map)
+
+    def rule_for_5(number_map):
+        return rule_3_and_rest(5, 500, 50, number_map)
+
+    def rule_for_6(number_map):
+        return rule_3_and_rest(6, 600, 0, number_map)
+
+    number_map = {n: 0 for n in range(1, 7)}
+    for value in dice:
+        number_map[value] = number_map[value] + 1
+
+    return rule_for_1(number_map) + \
+           rule_for_2(number_map) + \
+           rule_for_3(number_map) + \
+           rule_for_4(number_map) + \
+           rule_for_5(number_map) + \
+           rule_for_6(number_map)
+
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):

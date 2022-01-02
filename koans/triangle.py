@@ -17,8 +17,28 @@
 #   about_triangle_project_2.py
 #
 def triangle(a, b, c):
-    # DELETE 'PASS' AND WRITE THIS CODE
-    pass
+    sides = [a, b, c]
+
+    check_if_valid(sides)
+
+    nr_of_different_sides = len(set(sides))
+    if nr_of_different_sides == 3:
+        return 'scalene'
+    elif nr_of_different_sides == 2:
+        return 'isosceles'
+    else:
+        return 'equilateral'
+
+
+def check_if_valid(sides):
+    sum_all_sides = sum(sides)
+    for side in sides:
+        if side <= 0:
+            raise TriangleError
+        sum_others = sum_all_sides - side
+        if side >= sum_others:
+            raise TriangleError
+
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError(Exception):
